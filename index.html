@@ -8,7 +8,7 @@
     <!-- Link Bootstrap, BootstrapJS, Jquery and Popper -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" <<<<<<< HEAD
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -17,9 +17,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    =======
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
         </script>
@@ -31,7 +28,7 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
-    >>>>>>> master
+
     <style>
         /* Set a background image by replacing the URL below */
         body {
@@ -84,20 +81,42 @@
                 <form>
                     <div class="form-group">
                         <label for="eventCategories">Categories</label>
-
                         <select class="form-control-sm" id="eventCategories">
-                            <option value="none" selected disabled hidden>
-                                Select an Option </option>
+                            <option>Select an Option </option>
                         </select>
-
-
 
                         <label for="SubeventCategories">SubCategories</label>
-
-                        <select class="form-control-sm" id="SubeventCategories">
-                            <option value="none" selected disabled hidden>
-                                Select an Option </option>
+                        <select class="form-control-sm" id="SubeventCategories" disabled>
+                            <option>Select an Option </option>
                         </select>
+
+                        <label for="keywordSearch">Keywords</label>
+                        <input type="text" id="keywordSearch" placeholder="eg. Web Design">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateRange">Start Date</label>
+                        <input type="date" id="dateRange">
+
+                        <label for="dateRange">End Date</label>
+                        <input type="date" id="dateRange">
+                    </div>
+                    <div class="form-group">
+                        <!-- Filter Catagories: Keywords, Location, distance, date info, free option, Age restriction -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="ageCheck">
+                            <label class="form-check-label" for="ageCheck">
+                                18+ Events
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="freeCheck">
+                            <label class="form-check-label" for="freeCheck">
+                                Only Free events
+                            </label>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
 
                 </form>
                 <div style="height: 700px"></div>
@@ -128,7 +147,6 @@
             </div>
         </div>
     </div>
-    <<<<<<< HEAD=======>>>>>>> master
 </body>
 
 </html>
