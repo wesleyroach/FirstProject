@@ -8,7 +8,7 @@
     <!-- Link Bootstrap, BootstrapJS, Jquery and Popper -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" <<<<<<< HEAD
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -17,6 +17,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    =======
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+        </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+        </script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="./assets/JavaScript/meet.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    >>>>>>> master
     <style>
         /* Set a background image by replacing the URL below */
         body {
@@ -67,8 +82,23 @@
                 <p class="lead">This is the Basic Page setup, We'll be adjusting this to work with Wes's wireframe</p>
                 <p class="lead">Input Fields go here</p>
                 <form>
-                    <input type="text" placeholder="Catagory">
-                    <input type="text" placeholder="SubCatagory">
+                    <div class="form-group">
+                        <label for="eventCategories">Categories</label>
+
+                        <select class="form-control-sm" id="eventCategories">
+                            <option value="none" selected disabled hidden>
+                                Select an Option </option>
+                        </select>
+
+
+
+                        <label for="SubeventCategories">SubCategories</label>
+
+                        <select class="form-control-sm" id="SubeventCategories">
+                            <option value="none" selected disabled hidden>
+                                Select an Option </option>
+                        </select>
+
                 </form>
                 <div style="height: 700px"></div>
                 <p class="lead mb-0">Footer</p>
@@ -98,6 +128,7 @@
             </div>
         </div>
     </div>
+    <<<<<<< HEAD=======>>>>>>> master
 </body>
 
 </html>
