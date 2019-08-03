@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     var eventbriteCategoriesURL = eventapiURL + "/categories/?" + eventapiToken;
     var eventbriteSubCategoriesURL = eventapiURL + "/subcategories/?" + eventapiToken;
-    
+
     //Call to get the categories list.
 
     $.ajax({
@@ -25,18 +25,18 @@ $(document).ready(function () {
             //From the eventbriteCategories array populate the select list  of category Name
             for (var j = 0; j < eventbriteCategories.length; j++) {
                 var category = eventbriteCategories[j].Name;
-                var categoriesList = $("<option id='cat1'>").text(category);
+                var categoriesList = $("<option>").text(category);
                 $("#eventCategories").append(categoriesList);
 
             }
-            console.log(response);
-            console.log(eventbriteCategories);
+
         });
 
     //Call to get the subcategories list.
     var eventPage = '';
 
 
+    //We need to check till pageination.continuation does not return a token
     function makeAPIcall(continuation = "", count = 0) {
         if (continuation !== "") {
             var continuationString = "&continuation=" + eventPage;
@@ -50,30 +50,45 @@ $(document).ready(function () {
             }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
             //We want the parent ID as on selection of relavant category in the select listonly the relavant subcategories shouls appear
             .then(function (response) {
+                console.log(response);
                 for (var i = 0; i < response.subcategories.length; i++) {
                     eventbriteSubCategories.push({
                         Name: response.subcategories[i].name,
                         ID: response.subcategories[i].id,
                         parentID: response.subcategories[i].parent_category.id,
+                        parentName: response.subcategories[i].parent_category.name
                     });
                 }
                 eventPage = response.pagination.continuation;
-                console.log(response);
-                console.log(eventbriteSubCategories);
-                console.log(eventPage);
 
                 if (eventPage) {
                     makeAPIcall(eventPage);
                 }
             });
 
-            console.log(eventbriteSubCategories);
-    }
+        console.log(eventbriteSubCategories);
 
+    }
+    //call the function  for subcategories
     makeAPIcall();
-     $("#cat1").change(function () {
-      var selectedVal = $(this).val();
-        console.log(this);
-        console.log("228");
+    //On selecting the categories, appropriate subcategories need to populate
+    $("#eventCategories").on('change', function () {
+        var selectedVal = $(this).val();
+        $("#SubeventCategories").empty();
+        if(selectedVal!="Select an Option"){
+            $("#SubeventCategories").removeAttr("disabled");
+        }
+        else{
+                $('#SubeventCategories').attr('disabled', true)
+            
+        }
+        console.log(selectedVal);
+        for (var i = 0; i < eventbriteSubCategories.length; i++) {
+            if (selectedVal === eventbriteSubCategories[i].parentName) {
+                var SubcategoriesList = $("<option>").text(eventbriteSubCategories[i].Name);
+                $("#SubeventCategories").append(SubcategoriesList);
+            }
+        }
+
     });
 });
