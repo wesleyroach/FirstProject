@@ -88,6 +88,8 @@ $(document).ready(function () {
                 var SubcategoriesList = $("<option>").text(eventbriteSubCategories[i].Name);
                 $("#SubeventCategories").append(SubcategoriesList);
             }
+
+         
         }
 
     });
