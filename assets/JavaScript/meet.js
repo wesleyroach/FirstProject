@@ -80,7 +80,7 @@ $(document).ready(function () {
         }
         else{
                 $('#SubeventCategories').attr('disabled', true)
-            
+                $("#SubeventCategories").html("<option>Select An Option</option>");
         }
         console.log(selectedVal);
         for (var i = 0; i < eventbriteSubCategories.length; i++) {
