@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     var eventbriteCategoriesURL = eventapiURL + "/categories/?" + eventapiToken;
     var eventbriteSubCategoriesURL = eventapiURL + "/subcategories/?" + eventapiToken;
-    var eventbriteSubCategoriesURL1 = eventapiURL + "/subcategories/?" + eventapiToken + "&continuation=" + eventPage;
+    
     //Call to get the categories list.
 
     $.ajax({
