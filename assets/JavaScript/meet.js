@@ -1,4 +1,54 @@
 $(document).ready(function () {
+    // <----------------------------------------------------------------------------------->
+    // Google Maps & Geolocation APIs
+    getLocation();
+    // initMap();
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    };
+
+    var latitude = '';
+    var longitude = '';
+    var coordsValue = false;
+
+    function showPosition(position) {
+        // x.innerHTML = "Latitude: " + position.coords.latitude +
+        //     "<br>Longitude: " + position.coords.longitude;
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        coordsValue = true;
+        console.log(latitude);
+        console.log(longitude);
+
+        if (coordsValue) {
+            initMap();
+        }
+    };
+
+
+
+    function initMap() {
+        var userLocation = {
+            lat: latitude,
+            lng: longitude
+        }
+        var map = new google.maps.Map(
+            document.getElementById("mapInitPage"), {
+                zoom: 15,
+                center: userLocation
+            });
+        var marker = new google.maps.Marker({
+            position: userLocation,
+            map: map
+        });
+    }
+
+    // <--------------------------------------------------------------------------------------------------->
 
     var eventbriteCategories = [];
     var eventbriteSubCategories = [];
@@ -12,9 +62,9 @@ $(document).ready(function () {
     //Call to get the categories list.
 
     $.ajax({
-            url: eventbriteCategoriesURL,
-            method: "GET"
-        }) //On response get the name and ID and push it to the eventbriteCategories array
+        url: eventbriteCategoriesURL,
+        method: "GET"
+    }) //On response get the name and ID and push it to the eventbriteCategories array
         .then(function (response) {
             for (var i = 0; i < response.categories.length; i++) {
                 eventbriteCategories.push({
@@ -45,9 +95,9 @@ $(document).ready(function () {
         }
 
         $.ajax({
-                url: eventbriteSubCategoriesURL,
-                method: "GET"
-            }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
+            url: eventbriteSubCategoriesURL,
+            method: "GET"
+        }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
             //We want the parent ID as on selection of relavant category in the select listonly the relavant subcategories shouls appear
             .then(function (response) {
                 console.log(response);
@@ -80,7 +130,11 @@ $(document).ready(function () {
             $('#SubeventCategories').attr('disabled', true)
             $("#SubeventCategories").html("<option>Select An Option</option>");
         }
-//populate the subcategories based on the selected category
+        else {
+            $('#SubeventCategories').attr('disabled', true)
+
+        }
+        console.log(selectedVal);
         for (var i = 0; i < eventbriteSubCategories.length; i++) {
             if (selectedVal === eventbriteSubCategories[i].parentName) {
                 var SubcategoriesList = $("<option>").text(eventbriteSubCategories[i].Name);
@@ -90,4 +144,8 @@ $(document).ready(function () {
         }
 
     });
+});
+
+$('button').on('click', function (event) {
+    event.preventDefault();
 });

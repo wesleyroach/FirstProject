@@ -24,10 +24,14 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
     <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="./assets/JavaScript/meet.js"></script>
+
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+
+    <!-- Google Maps API key. Please be careful the key, hackers like to find keys like this -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI">
+    </script>
 
     <style>
         /* Set a background image by replacing the URL below */
@@ -74,10 +78,10 @@
     <!-- Page Content -->
     <div class="container">
         <div class="card border-0 shadow my-5">
-            <div class="card-body p-5">
-                <h1 class="font-weight-light">Create</h1>
-                <p class="lead">This is the Basic Page setup, We'll be adjusting this to work with Wes's wireframe</p>
-                <p class="lead">Input Fields go here</p>
+            <div class="card-body p-5 collapse show crushMeDaddy" id="crushMeDaddy">
+                <h1 class="font-weight-light text-center">What are you looking for?</h1>
+                <p class="lead">We want to help you find a great event nearby.</p>
+                <p class="lead">Here's where you can tell us what you're looking for</p>
                 <form>
                     <div class="form-group">
                         <label for="eventCategories">Categories</label>
@@ -97,25 +101,30 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label" for="maxDistance">Max distance from me</label>
-                        <div class="col-sm-7">
+                        <label class="col-sm-3 col-form-label" for="maxDistance">Max distance from me:</label>
+                        <div class="input-group col-sm-3">
                             <input class="form-control" type="number" id="maxDistance">
-
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="inputGroupPrepend">Km's</span>
+                            </div>
                         </div>
-                        <label class="col-sm-2 col-form-label">Km's</label>
+
                     </div>
+
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <label class="col-form-label" for="dateStart">Start Date</label>
-                            <input class="form-control" type="date" id="dateStart">
-
-                            <label class="col-form-label" for="dateEnd">End Date</label>
-                            <input class="form-control" type="date" id="dateEnd">
-
+                            <div class="row mb-1">
+                                <label class="col-sm-3 col-form-label" for="dateStart">Start Date</label>
+                                <input class="col-sm-8 form-control" type="date" id="dateStart">
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label" for="dateEnd">End Date</label>
+                                <input class="col-sm-8 form-control" type="date" id="dateEnd">
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- Filter Catagories: Keywords, Location, distance, date info, free option, Age restriction -->
-                            <div class="form-check">
+                            <div class="form-check mt-2">
                                 <input class="form-check-input" type="checkbox" value="" id="ageCheck">
                                 <label class="form-check-label" for="ageCheck">
                                     18+ Events
@@ -130,14 +139,23 @@
 
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-
+                    <button type="submit" class="btn btn-primary" data-toggle="collapse"
+                        href=".crushMeDaddy">Submit</button>
+                    <button type="submit" class="btn btn-secondary">Clear Filters</button>
                 </form>
-                <div style="height: 700px"></div>
-                <p class="lead mb-0">Footer</p>
+                <!-- <div style="height: 700px"></div> -->
+                <p class="col-sm-12 text-center mb-0 mt-2">Remember to exercise personal safety, always make sure people
+                    know where you are and how to reach you</p>
+                <div class="col-sm-12"><a class="mx-auto" href="https://www.police.vic.gov.au/drink-spiking">Click here
+                        to for the
+                        Victoria
+                        Police recommendations on personal safety</a></div>
             </div>
         </div>
-        <div id="mapDiv" class="card border-0 shadow my-5">
+
+
+        <div id="mapInitPage"></div>
+        <!-- <div id="mapDiv" class="card border-0 shadow my-5 crushMeDaddy collapse">
             <div class="mapouter">
                 <div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas"
                         src="https://maps.google.com/maps?q=monash%20university&t=&z=13&ie=UTF8&iwloc=&output=embed"
@@ -159,8 +177,9 @@
                     }
                 </style>
             </div>
-        </div>
+        </div> -->
     </div>
+    <script src="./assets/JavaScript/meet.js"></script>
 </body>
 
 </html>
