@@ -66,8 +66,6 @@ $(document).ready(function () {
                 }
             });
 
-        console.log(eventbriteSubCategories);
-
     }
     //call the function  for subcategories
     makeAPIcall();
@@ -75,21 +73,20 @@ $(document).ready(function () {
     $("#eventCategories").on('change', function () {
         var selectedVal = $(this).val();
         $("#SubeventCategories").empty();
-        if(selectedVal!="Select an Option"){
+        //If the category value is "select an Option" then the subcategory is disabled
+        if (selectedVal != "Select an Option") {
             $("#SubeventCategories").removeAttr("disabled");
+        } else {
+            $('#SubeventCategories').attr('disabled', true)
+            $("#SubeventCategories").html("<option>Select An Option</option>");
         }
-        else{
-                $('#SubeventCategories').attr('disabled', true)
-                $("#SubeventCategories").html("<option>Select An Option</option>");
-        }
-        console.log(selectedVal);
+//populate the subcategories based on the selected category
         for (var i = 0; i < eventbriteSubCategories.length; i++) {
             if (selectedVal === eventbriteSubCategories[i].parentName) {
                 var SubcategoriesList = $("<option>").text(eventbriteSubCategories[i].Name);
                 $("#SubeventCategories").append(SubcategoriesList);
             }
 
-         
         }
 
     });
