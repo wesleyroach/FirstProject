@@ -49,9 +49,10 @@ $(document).ready(function () {
     }
 
     // <--------------------------------------------------------------------------------------------------->
-
+    //EventBrite categories and Subcategories
     var eventbriteCategories = [];
     var eventbriteSubCategories = [];
+
     //EventBrite URL to get categories and subcategories
     var eventapiURL = "https://www.eventbriteapi.com/v3/"
     var eventapiToken = "token=C3OEMSDYCFYJTK2H3KS2"
@@ -62,9 +63,9 @@ $(document).ready(function () {
     //Call to get the categories list.
 
     $.ajax({
-        url: eventbriteCategoriesURL,
-        method: "GET"
-    }) //On response get the name and ID and push it to the eventbriteCategories array
+            url: eventbriteCategoriesURL,
+            method: "GET"
+        }) //On response get the name and ID and push it to the eventbriteCategories array
         .then(function (response) {
             for (var i = 0; i < response.categories.length; i++) {
                 eventbriteCategories.push({
@@ -91,16 +92,14 @@ $(document).ready(function () {
         if (continuation !== "") {
             var continuationString = "&continuation=" + eventPage;
             eventbriteSubCategoriesURL = eventbriteSubCategoriesURL + continuationString
-
         }
 
         $.ajax({
-            url: eventbriteSubCategoriesURL,
-            method: "GET"
-        }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
+                url: eventbriteSubCategoriesURL,
+                method: "GET"
+            }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
             //We want the parent ID as on selection of relavant category in the select listonly the relavant subcategories shouls appear
             .then(function (response) {
-                console.log(response);
                 for (var i = 0; i < response.subcategories.length; i++) {
                     eventbriteSubCategories.push({
                         Name: response.subcategories[i].name,
@@ -115,9 +114,6 @@ $(document).ready(function () {
                     makeAPIcall(eventPage);
                 }
             });
-
-        console.log(eventbriteSubCategories);
-
     }
     //call the function  for subcategories
     makeAPIcall();
@@ -127,12 +123,10 @@ $(document).ready(function () {
         $("#SubeventCategories").empty();
         if (selectedVal != "Select an Option") {
             $("#SubeventCategories").removeAttr("disabled");
-        }
-        else {
+        } else {
             $('#SubeventCategories').attr('disabled', true)
 
         }
-        console.log(selectedVal);
         for (var i = 0; i < eventbriteSubCategories.length; i++) {
             if (selectedVal === eventbriteSubCategories[i].parentName) {
                 var SubcategoriesList = $("<option>").text(eventbriteSubCategories[i].Name);
@@ -141,8 +135,98 @@ $(document).ready(function () {
         }
 
     });
-});
+    //Get the submitted form values
+    var clickedCategoryID = '';
+    var clickedSubCategory = '';
+    var clickedSubCategoryID = '';
+    var clickedKeyword = '';
+    var clickedDistance = '';
+    var clickedStartDate = '';
+    var clickedEndDate = '';
+    var clickedAgeCheck = '';
+    var clickedFreeCheck = '';
+    var eventbriteSearchURL = '';
 
-$('button').on('click', function (event) {
-    event.preventDefault();
+    $('button').on('click', function (event) {
+        event.preventDefault();
+        clickedSubCategory = $("#SubeventCategories").val();
+        clickedKeyword = $("#keywordSearch").val();
+        clickedDistance = $("#maxDistance").val();
+        clickedStartDate = $("#dateStart").val();
+        clickedEndDate = $("#dateEnd").val();
+        if ($('#ageCheck')[0].checked) {
+            clickedAgeCheck = true;
+        }
+
+        if ($('#freeCheck')[0].checked) {
+            clickedFreeCheck = "free";
+        } else {
+            clickedFreeCheck = "paid";
+        }
+        //Use filter to get the array of selected category and subcategory
+        var catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
+            return catagoryArray.Name === $("#eventCategories").val();
+
+        });
+        clickedCategoryID = catagoryArray[0].ID;
+
+        var subcatagoryArray = eventbriteSubCategories.filter(function (subcatagoryArray) {
+            return subcatagoryArray.Name === $("#SubeventCategories").val();
+
+        });
+
+        for (var k = 0; k < subcatagoryArray.length; k++) {
+            if (subcatagoryArray[k].Name === clickedSubCategory && subcatagoryArray[k].parentID === clickedCategoryID) {
+                clickedSubCategoryID = subcatagoryArray[k].ID;
+            }
+        }
+
+        if (clickedAgeCheck) {
+            eventbriteSearchURL = eventapiURL + "events/search/?q=" + clickedKeyword + "&location.within=" + clickedDistance + "km&location.latitude=" + latitude + "&location.longitude=" + longitude + "&categories=" + clickedCategoryID + "&subcategories=" + clickedSubCategoryID + "&price=" + clickedFreeCheck + "&include_adult_events=on&" + eventapiToken;
+        } else {
+            eventbriteSearchURL = eventapiURL + "events/search/?q=" + clickedKeyword + "&location.within=" + clickedDistance + "km&location.latitude=" + latitude + "&location.longitude=" + longitude + "&categories=" + clickedCategoryID + "&subcategories=" + clickedSubCategoryID + "&price=" + clickedFreeCheck + "&" + eventapiToken;
+        }
+
+        console.log(eventbriteSearchURL);
+        // start_date.range_start=2019-08-12&start_date.range_end=2019-08-31
+
+
+        $.ajax({
+                url: eventbriteSearchURL,
+                method: "GET"
+            })
+            .then(function (response) {
+                console.log(response);
+
+                // for (var i = 0; i < response.pagination.object_count; i++) {
+                //     //    var carddiv =$('<div />', {
+                //     //     "class": 'card',
+                //     //     "style": "width: 18rem;"});
+
+                //     var image = $("<img>").attr({
+                //         "src": response.events[i].logo.url,
+                //         "class": "card-img-top"
+                //     });
+
+                //     var topicDiv = $("<h5>").attr({
+                //         "class": "card-title",
+                //         text: +response.events[i].name.text
+                //     });
+
+                //     $("card").append(image);
+                //     $("card-body").append(topicDiv);
+                //     // console.log(response.events[i].name.text);
+                // }
+            });
+
+
+    });
+
+    //CALL to get the events basedon search paramenters
+    console.log(eventbriteSearchURL);
+
+
+
+
+
 });
