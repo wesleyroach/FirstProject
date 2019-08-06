@@ -1,7 +1,6 @@
 $(document).ready(function () {
     // <----------------------------------------------------------------------------------->
     // Google Maps & Geolocation APIs
-    getLocation();
     // initMap();
 
     function getLocation() {
@@ -30,7 +29,11 @@ $(document).ready(function () {
         }
     };
 
+    $('#findMe').on('click', function (event) {
+        event.preventDefault();
+        getLocation();
 
+    })
 
     function initMap() {
         var userLocation = {
@@ -65,9 +68,9 @@ $(document).ready(function () {
     //Call to get the categories list.
 
     $.ajax({
-            url: eventbriteCategoriesURL,
-            method: "GET"
-        }) //On response get the name and ID and push it to the eventbriteCategories array
+        url: eventbriteCategoriesURL,
+        method: "GET"
+    }) //On response get the name and ID and push it to the eventbriteCategories array
         .then(function (response) {
             for (var i = 0; i < response.categories.length; i++) {
                 eventbriteCategories.push({
@@ -97,9 +100,9 @@ $(document).ready(function () {
         }
 
         $.ajax({
-                url: eventbriteSubCategoriesURL,
-                method: "GET"
-            }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
+            url: eventbriteSubCategoriesURL,
+            method: "GET"
+        }) //On response get the name,ID and parent ID and push it to the eventbriteCategories array. 
             //We want the parent ID as on selection of relavant category in the select listonly the relavant subcategories shouls appear
             .then(function (response) {
                 for (var i = 0; i < response.subcategories.length; i++) {
@@ -217,9 +220,9 @@ $(document).ready(function () {
                         }
 
                         $.ajax({
-                                url: eventbriteSearchURL,
-                                method: "GET"
-                            })
+                            url: eventbriteSearchURL,
+                            method: "GET"
+                        })
                             .then(function (response) {
                                 //Call to get the events based on search paramenters
                                 console.log(response);
