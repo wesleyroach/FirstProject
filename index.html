@@ -1,169 +1,243 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
-<head>
+  <head>
     <title>EventMeet</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
 
     <!-- Link Bootstrap, BootstrapJS, Jquery and Popper -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-        </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-        </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-        </script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://code.jquery.com/jquery.js"></script>
-
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
 
     <!-- Google Maps API key. Please be careful the key, hackers like to find keys like this -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI">
-    </script>
-    <link rel="stylesheet" href="./assets/CSS/style.css">
-</head>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI"></script>
+    <link rel="stylesheet" href="./assets/CSS/style.css" />
+  </head>
 
-<body>
+  <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
-        <div class="container">
-            <a class="navbar-brand" href="#">EventMeet - Find an event, Find a friend </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">APIs Used</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact Us</a>
-                    </li>
-                </ul>
-            </div>
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="#"
+          >EventMeet - Find an event, Find a friend
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"
+                >Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">APIs Used</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact Us</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Page Content -->
     <div class="container">
-        <div class="card border-0 shadow my-5">
-            <div class="card-body p-5 collapse show crushMeDaddy" id="crushMeDaddy">
-                <h1 class="font-weight-light text-center">What are you looking for?</h1>
-                <p class="lead">We want to help you find a great event nearby.</p>
-                <p class="lead">Here's where you can tell us what you're looking for</p>
-                <form id="demo-form" class="needs-validation" novalidate>
-                    <div class="form-group">
-                        <label for="eventCategories">Categories</label>
-                        <select class="form-control-sm" id="eventCategories">
-                            <option>Select an Option </option>
-                        </select>
+      <div class="card border-0 shadow my-5">
+        <div class="card-body p-5 collapse show crushMeDaddy" id="crushMeDaddy">
+          <h1 class="font-weight-light text-center">
+            What are you looking for?
+          </h1>
+          <p class="lead">We want to help you find a great event nearby.</p>
+          <p class="lead">
+            Here's where you can tell us what you're looking for
+          </p>
+          <form id="demo-form" class="needs-validation" novalidate>
+            <div class="form-group">
+              <label for="eventCategories">Categories</label>
+              <select class="form-control-sm" id="eventCategories">
+                <option>Select an Option </option>
+              </select>
 
-                        <label for="SubeventCategories">SubCategories</label>
-                        <select class="form-control-sm" id="SubeventCategories" disabled>
-                            <option>Select an Option </option>
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="keywordSearch">Keywords</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="keywordSearch" placeholder="eg. Web Design">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label" for="maxDistance">Max distance from me:</label>
-                        <div class="input-group col-sm-3">
-                            <input class="form-control" type="number" id="maxDistance" required>
-                            <div class="input-group-append ">
-                                <span class="input-group-text" id="inputGroupPrepend">Km's</span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <div class="row mb-1">
-                                <label class="col-sm-3 col-form-label" for="dateStart">Start Date</label>
-                                <input class="col-sm-8 form-control" type="date" id="dateStart" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid time.
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-3 col-form-label" for="dateEnd">End Date</label>
-                                <input class="col-sm-8 form-control" type="date" id="dateEnd" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid time.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <!-- Filter Catagories: Keywords, Location, distance, date info, free option, Age restriction -->
-                            <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" value="" id="ageCheck">
-                                <label class="form-check-label" for="ageCheck">
-                                    18+ Events
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="freeCheck">
-                                <label class="form-check-label" for="freeCheck">
-                                    Only Free events
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- <button type="submit" class="btn btn-primary" data-toggle="collapse" -->
-                    <button type="submit" class="btn btn-primary validate" href=".crushMeDaddy">Submit</button>
-                    <button type="submit" class="btn btn-secondary">Clear Filters</button>
-                </form>
-                <!-- <div style="height: 700px"></div> -->
-                <p class="col-sm-12 text-center mb-0 mt-2">Remember to exercise personal safety, always make sure people
-                    know where you are and how to reach you</p>
-                <div class="col-sm-12"><a class="mx-auto" href="https://www.police.vic.gov.au/drink-spiking">Click here
-                        to for the
-                        Victoria
-                        Police recommendations on personal safety</a></div>
+              <label for="SubeventCategories">SubCategories</label>
+              <select class="form-control-sm" id="SubeventCategories" disabled>
+                <option>Select an Option </option>
+              </select>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label" for="keywordSearch"
+                >Keywords</label
+              >
+              <div class="col-sm-10">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="keywordSearch"
+                  placeholder="eg. Web Design"
+                />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label" for="maxDistance"
+                >Max distance from me:</label
+              >
+              <div class="input-group col-sm-3">
+                <input
+                  class="form-control"
+                  type="number"
+                  id="maxDistance"
+                  required
+                />
+                <div class="input-group-append ">
+                  <span class="input-group-text" id="inputGroupPrepend"
+                    >Km's</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <div class="row mb-1">
+                  <label class="col-sm-3 col-form-label" for="dateStart"
+                    >Start Date</label
+                  >
+                  <input
+                    class="col-sm-8 form-control"
+                    type="date"
+                    id="dateStart"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Please provide a valid time.
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label" for="dateEnd"
+                    >End Date</label
+                  >
+                  <input
+                    class="col-sm-8 form-control"
+                    type="date"
+                    id="dateEnd"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Please provide a valid time.
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- Filter Catagories: Keywords, Location, distance, date info, free option, Age restriction -->
+                <div class="form-check mt-2">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="ageCheck"
+                  />
+                  <label class="form-check-label" for="ageCheck">
+                    18+ Events
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="freeCheck"
+                  />
+                  <label class="form-check-label" for="freeCheck">
+                    Only Free events
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- <button type="submit" class="btn btn-primary" data-toggle="collapse" -->
+            <button
+              type="submit"
+              class="btn btn-primary validate"
+              href=".crushMeDaddy"
+            >
+              Submit
+            </button>
+            <a
+              class="btn btn-primary validate"
+              href="https://secure.meetup.com/oauth2/authorize?client_id=kvbo9prgh2pnk87lvrg8t538ov&response_type=token&redirect_uri=http://localhost:8080"
+            >
+              Find Groups on MeetUp
+            </a>
+            <button type="submit" class="btn btn-secondary">
+              Clear Filters
+            </button>
+          </form>
+          <!-- <div style="height: 700px"></div> -->
+          <p class="col-sm-12 text-center mb-0 mt-2">
+            Remember to exercise personal safety, always make sure people know
+            where you are and how to reach you
+          </p>
+          <div class="col-sm-12">
+            <a
+              class="mx-auto"
+              href="https://www.police.vic.gov.au/drink-spiking"
+              >Click here to for the Victoria Police recommendations on personal
+              safety</a
+            >
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="container">
-        <div class="card border-0 shadow my-5">
-            <div class="card-body p-5 collapse show crushMeDaddy" id="crushMeDaddy">
-                <div class="col-sm-12" id="mapInitPage"></div>
-            </div>
+      <div class="card border-0 shadow my-5">
+        <div class="card-body p-5 collapse show crushMeDaddy" id="crushMeDaddy">
+          <div class="col-sm-12" id="mapInitPage"></div>
         </div>
+      </div>
     </div>
 
     <div class="card border-0 shadow my-5" id="mapContainer">
-        <div class="row">
-
-
-        </div>
+      <div class="row"></div>
     </div>
     <script src="./assets/JavaScript/moment.js"></script>
     <script src="./assets/JavaScript/meet.js"></script>
-
-</body>
-
+  </body>
 </html>
