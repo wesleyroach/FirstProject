@@ -22,17 +22,17 @@ $(document).ready(function () {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         coordsValue = true;
-        console.log(latitude);
+        console.log(typeof latitude);
         console.log(longitude);
 
         if (coordsValue) {
-            initMap();
+            initMap(latitude, longitude);
         }
     };
 
 
 
-    function initMap() {
+    function initMap(latitude, longitude) {
         var userLocation = {
             lat: latitude,
             lng: longitude
@@ -47,6 +47,19 @@ $(document).ready(function () {
             map: map
         });
     }
+
+    // function initCustomMap(latitude, longitude) {
+    //     var userLocation = {
+    //         lat: latitude,
+    //         lng: longitude
+    //     }
+    //     var map = new google.maps.Map(
+    //         document.getElementById("mapInitPage"), {});
+    //     var marker = new google.maps.Marker({
+    //         position: userLocation,
+    //         map: map
+    //     });
+    // }
 
     // <--------------------------------------------------------------------------------------------------->
     //---------------------------THIS SECTION IS FOR EVENBRITE API --------------------------
@@ -223,6 +236,28 @@ $(document).ready(function () {
                             .then(function (response) {
                                 //Call to get the events based on search paramenters
                                 console.log(response);
+                                var venueList = [];
+                                for (var i = 0; i < response.events.length; i++) {
+                                    var venueId = response.events[i].venue_id;
+                                    var venueName = response.events[i].name.text;
+                                    console.log(venueName);
+
+                                    var locations = [];
+                                    $.ajax({
+                                            url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
+                                            method: "GET"
+                                        })
+                                        .then(function (response) {
+                                            var lat = parseInt(response.latitude);
+                                            var long = parseInt(response.longitude);
+                                            console.log(typeof lat);
+                                            console.log(long);
+                                            initCustomMap(lat, long);
+                                            var location = [];
+
+                                        })
+
+                                }
                             });
                     }
                     form.classList.add('was-validated');
@@ -234,6 +269,11 @@ $(document).ready(function () {
     //check the correct URL is created
     console.log(eventbriteSearchURL);
     //---------------------------END OF SECTION FOR EVENBRITE API --------------------------
+
+    //--------------------EVENTBRITE API CALL FOR COORDINATES FOR GOOGLE MAPS---------------//
+
+
+    // ----------------------------------------JEZZA----------------------------------------//
 
 
 });
