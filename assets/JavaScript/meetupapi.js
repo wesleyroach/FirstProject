@@ -73,11 +73,5 @@ $(document).ready(function() {
         "</td></tr>";
       $("#tablebody").append(markup);
     }
-
-    //access each item
-    //each item will have a name and a link
-
-    meetUpNameLink.push(response);
   });
 });
-//On response get Group Name & URL (link)
