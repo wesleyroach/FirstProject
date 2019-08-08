@@ -32,7 +32,6 @@ $(document).ready(function () {
     $('#findMe').on('click', function (event) {
         event.preventDefault();
         getLocation();
-
     })
 
     function initMap() {
@@ -42,7 +41,7 @@ $(document).ready(function () {
         }
         var map = new google.maps.Map(
             document.getElementById("mapInitPage"), {
-                zoom: 15,
+                zoom: 17,
                 center: userLocation
             });
         var marker = new google.maps.Marker({
