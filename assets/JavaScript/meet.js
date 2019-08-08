@@ -2,7 +2,6 @@ $(document).ready(function () {
     // <----------------------------------------------------------------------------------->
     // Google Maps & Geolocation APIs
     getLocation();
-    // initMap();
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -17,8 +16,6 @@ $(document).ready(function () {
     var coordsValue = false;
 
     function showPosition(position) {
-        // x.innerHTML = "Latitude: " + position.coords.latitude +
-        //     "<br>Longitude: " + position.coords.longitude;
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         coordsValue = true;
@@ -31,15 +28,16 @@ $(document).ready(function () {
     };
 
 
+    var map;
 
     function initMap(latitude, longitude) {
         var userLocation = {
             lat: latitude,
             lng: longitude
         }
-        var map = new google.maps.Map(
+        map = new google.maps.Map(
             document.getElementById("mapInitPage"), {
-                zoom: 15,
+                zoom: 10,
                 center: userLocation
             });
         var marker = new google.maps.Marker({
@@ -47,19 +45,6 @@ $(document).ready(function () {
             map: map
         });
     }
-
-    // function initCustomMap(latitude, longitude) {
-    //     var userLocation = {
-    //         lat: latitude,
-    //         lng: longitude
-    //     }
-    //     var map = new google.maps.Map(
-    //         document.getElementById("mapInitPage"), {});
-    //     var marker = new google.maps.Marker({
-    //         position: userLocation,
-    //         map: map
-    //     });
-    // }
 
     // <--------------------------------------------------------------------------------------------------->
     //---------------------------THIS SECTION IS FOR EVENBRITE API --------------------------
@@ -229,6 +214,8 @@ $(document).ready(function () {
                                 clickedStartDate + "&start_date.range_end=" + clickedEndDate + "&" + eventapiToken;
                         }
 
+                        var lat = '';
+                        var long = '';
                         $.ajax({
                                 url: eventbriteSearchURL,
                                 method: "GET"
@@ -242,18 +229,27 @@ $(document).ready(function () {
                                     var venueName = response.events[i].name.text;
                                     console.log(venueName);
 
-                                    var locations = [];
                                     $.ajax({
                                             url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
                                             method: "GET"
                                         })
                                         .then(function (response) {
-                                            var lat = parseInt(response.latitude);
-                                            var long = parseInt(response.longitude);
-                                            console.log(typeof lat);
+                                            lat = parseFloat(response.latitude);
+                                            long = parseFloat(response.longitude);
+                                            var eventLocation = {
+                                                lat: lat,
+                                                lng: long
+                                            }
+                                            console.log(lat);
                                             console.log(long);
-                                            initCustomMap(lat, long);
-                                            var location = [];
+
+                                            var marker = new google.maps.Marker({
+                                                position: new google.maps.LatLng(eventLocation),
+                                                map: map
+                                            })
+
+                                            console.log(marker);
+                                            console.log(map);
 
                                         })
 
@@ -267,7 +263,7 @@ $(document).ready(function () {
     })();
 
     //check the correct URL is created
-    console.log(eventbriteSearchURL);
+
     //---------------------------END OF SECTION FOR EVENBRITE API --------------------------
 
     //--------------------EVENTBRITE API CALL FOR COORDINATES FOR GOOGLE MAPS---------------//
