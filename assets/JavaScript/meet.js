@@ -2,7 +2,6 @@ $(document).ready(function () {
     // <----------------------------------------------------------------------------------->
     // Google Maps & Geolocation APIs
     getLocation();
-    // initMap();
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -17,29 +16,28 @@ $(document).ready(function () {
     var coordsValue = false;
 
     function showPosition(position) {
-        // x.innerHTML = "Latitude: " + position.coords.latitude +
-        //     "<br>Longitude: " + position.coords.longitude;
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         coordsValue = true;
-        console.log(latitude);
+        console.log(typeof latitude);
         console.log(longitude);
 
         if (coordsValue) {
-            initMap();
+            initMap(latitude, longitude);
         }
     };
 
 
+    var map;
 
-    function initMap() {
+    function initMap(latitude, longitude) {
         var userLocation = {
             lat: latitude,
             lng: longitude
         }
-        var map = new google.maps.Map(
+        map = new google.maps.Map(
             document.getElementById("mapInitPage"), {
-                zoom: 15,
+                zoom: 10,
                 center: userLocation
             });
         var marker = new google.maps.Marker({
@@ -151,7 +149,7 @@ $(document).ready(function () {
     var eventbriteSearchURL = '';
     var subcatagoryArray = '';
     var catagoryArray = '';
-    var allcat=[];
+    var allcat = [];
     //Check if there is a valid value for distance,startdate and enddate. 
     //If not, Validation check is done before user can click on submit button.
     (function () {
@@ -195,7 +193,7 @@ $(document).ready(function () {
                             for (var j = 0; j < eventbriteCategories.length; j++) {
                                 var catID = eventbriteCategories[j].ID;
                                 allcat.push(catID);
-                                clickedCategoryID= allcat.join();
+                                clickedCategoryID = allcat.join();
                             }
                         }
                         //Filter all the subcategories in eventbriteCategories array
@@ -224,7 +222,9 @@ $(document).ready(function () {
                                 "&price=" + clickedFreeCheck + "&start_date.range_start=" +
                                 clickedStartDate + "&start_date.range_end=" + clickedEndDate + "&" + eventapiToken;
                         }
-                        console.log(eventbriteSearchURL);
+
+                        var lat = '';
+                        var long = '';
                         $.ajax({
                                 url: eventbriteSearchURL,
                                 method: "GET"
@@ -232,6 +232,37 @@ $(document).ready(function () {
                             .then(function (response) {
                                 //Call to get the events based on search paramenters
                                 console.log(response);
+                                var venueList = [];
+                                for (var i = 0; i < response.events.length; i++) {
+                                    var venueId = response.events[i].venue_id;
+                                    var venueName = response.events[i].name.text;
+                                    console.log(venueName);
+
+                                    $.ajax({
+                                            url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
+                                            method: "GET"
+                                        })
+                                        .then(function (response) {
+                                            lat = parseFloat(response.latitude);
+                                            long = parseFloat(response.longitude);
+                                            var eventLocation = {
+                                                lat: lat,
+                                                lng: long
+                                            }
+                                            console.log(lat);
+                                            console.log(long);
+
+                                            var marker = new google.maps.Marker({
+                                                position: new google.maps.LatLng(eventLocation),
+                                                map: map
+                                            })
+
+                                            console.log(marker);
+                                            console.log(map);
+
+                                        })
+
+                                }
                             });
                     }
                     form.classList.add('was-validated');
@@ -241,8 +272,13 @@ $(document).ready(function () {
     })();
 
     //check the correct URL is created
-    console.log(eventbriteSearchURL);
+
     //---------------------------END OF SECTION FOR EVENBRITE API --------------------------
+
+    //--------------------EVENTBRITE API CALL FOR COORDINATES FOR GOOGLE MAPS---------------//
+
+
+    // ----------------------------------------JEZZA----------------------------------------//
 
 
 });
