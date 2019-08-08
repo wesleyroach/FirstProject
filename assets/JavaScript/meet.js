@@ -1,7 +1,38 @@
 $(document).ready(function () {
-    // <----------------------------------------------------------------------------------->
-    // Google Maps & Geolocation APIs
+
+    var latitude = '';
+    var longitude = '';
+    var coordsValue = false;
+
+    //EventBrite categories and Subcategories
+    var eventbriteCategories = [];
+    var eventbriteSubCategories = [];
+    //EventBrite URL to get categories and subcategories
+    var eventapiURL = "https://www.eventbriteapi.com/v3/"
+    var eventapiToken = "token=C3OEMSDYCFYJTK2H3KS2"
+    var eventbriteCategoriesURL = eventapiURL + "/categories/?" + eventapiToken;
+    var eventbriteSubCategoriesURL = eventapiURL + "/subcategories/?" + eventapiToken;
+    var eventPage = '';
+    //Initialise all the variables for form submission
+    var clickedCategory = '';
+    var clickedCategoryID = '';
+    var clickedSubCategory = '';
+    var clickedSubCategoryID = '';
+    var clickedKeyword = '';
+    var clickedDistance = '';
+    var clickedStartDate = '';
+    var clickedEndDate = '';
+    var clickedAgeCheck = '';
+    var clickedFreeCheck = '';
+    var eventbriteSearchURL = '';
+    var subcatagoryArray = '';
+    var catagoryArray = '';
+    var eventLocations = [];
+    var map;
+   
     getLocation();
+    getEventcategories();
+    makeAPIcall();
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -11,17 +42,11 @@ $(document).ready(function () {
         }
     };
 
-    var latitude = '';
-    var longitude = '';
-    var coordsValue = false;
 
     function showPosition(position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         coordsValue = true;
-        console.log(typeof latitude);
-        console.log(longitude);
-
         if (coordsValue) {
             initMap(latitude, longitude);
         }
@@ -46,49 +71,42 @@ $(document).ready(function () {
         });
     }
 
+
     // <--------------------------------------------------------------------------------------------------->
     //---------------------------THIS SECTION IS FOR EVENBRITE API --------------------------
 
-    //EventBrite categories and Subcategories
-    var eventbriteCategories = [];
-    var eventbriteSubCategories = [];
-
-    //EventBrite URL to get categories and subcategories
-    var eventapiURL = "https://www.eventbriteapi.com/v3/"
-    var eventapiToken = "token=C3OEMSDYCFYJTK2H3KS2"
-
-    var eventbriteCategoriesURL = eventapiURL + "/categories/?" + eventapiToken;
-    var eventbriteSubCategoriesURL = eventapiURL + "/subcategories/?" + eventapiToken;
-
     //Call to get the categories list.
 
-    $.ajax({
-            url: eventbriteCategoriesURL,
-            method: "GET"
-        }) //On response get the name and ID and push it to the eventbriteCategories array
-        .then(function (response) {
-            for (var i = 0; i < response.categories.length; i++) {
-                eventbriteCategories.push({
-                    Name: response.categories[i].name,
-                    ID: response.categories[i].id
-                });
-            }
-            //From the eventbriteCategories array populate the select list  of category Name
-            for (var j = 0; j < eventbriteCategories.length; j++) {
-                var category = eventbriteCategories[j].Name;
-                var categoriesList = $("<option>").text(category);
-                $("#eventCategories").append(categoriesList);
+    function getEventcategories() {
 
-            }
+        $.ajax({
+                url: eventbriteCategoriesURL,
+                method: "GET"
+            }) //On response get the name and ID and push it to the eventbriteCategories array
+            .then(function (response) {
+                for (var i = 0; i < response.categories.length; i++) {
+                    eventbriteCategories.push({
+                        Name: response.categories[i].name,
+                        ID: response.categories[i].id
+                    });
+                }
+                //From the eventbriteCategories array populate the select list  of category Name
+                for (var j = 0; j < eventbriteCategories.length; j++) {
+                    var category = eventbriteCategories[j].Name;
+                    var categoriesList = $("<option>").text(category);
+                    $("#eventCategories").append(categoriesList);
 
-        });
+                }
+
+            });
+    }
 
     //Call to get the subcategories list.
-    var eventPage = '';
+
 
 
     //We need to check till pageination.continuation does not return a token
-    function makeAPIcall(continuation = "", count = 0) {
+    function makeAPIcall(continuation = "") {
         if (continuation !== "") {
             var continuationString = "&continuation=" + eventPage;
             eventbriteSubCategoriesURL = eventbriteSubCategoriesURL + continuationString
@@ -115,8 +133,50 @@ $(document).ready(function () {
                 }
             });
     }
+
+    function getEventInfo() {
+        $.ajax({
+                url: eventbriteSearchURL,
+                method: "GET"
+            })
+            .then(function (response) {
+                //Call to get the events based on search paramenters
+                console.log(response);
+                var venueList = [];
+                for (var i = 0; i < response.events.length; i++) {
+                    var venueId = response.events[i].venue_id;
+                    var venueName = response.events[i].name.text;
+                    console.log(venueName);
+                    console.log(venueId);
+
+
+                    $.ajax({
+                            url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
+                            method: "GET"
+                        })
+                        .then(function (response) {
+                            var lat = parseFloat(response.latitude);
+                            var long = parseFloat(response.longitude);
+                            var eventLocation = {
+                                lat: lat,
+                                lng: long
+                            }
+                            console.log(lat);
+                            console.log(long);
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(eventLocation),
+                                map: map
+                            })
+                        })
+
+                }
+            });
+            
+    }
+
+    
     //call the function  for subcategories
-    makeAPIcall();
+
     //On selecting the categories, appropriate subcategories need to populate
     $("#eventCategories").on('change', function () {
         var selectedVal = $(this).val();
@@ -135,150 +195,62 @@ $(document).ready(function () {
         }
 
     });
-    //Initialise all the variables for form submission
-    var clickedCategory = '';
-    var clickedCategoryID = '';
-    var clickedSubCategory = '';
-    var clickedSubCategoryID = '';
-    var clickedKeyword = '';
-    var clickedDistance = '';
-    var clickedStartDate = '';
-    var clickedEndDate = '';
-    var clickedAgeCheck = '';
-    var clickedFreeCheck = '';
-    var eventbriteSearchURL = '';
-    var subcatagoryArray = '';
-    var catagoryArray = '';
-    var allcat = [];
-    //Check if there is a valid value for distance,startdate and enddate. 
-    //If not, Validation check is done before user can click on submit button.
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    } else {
-                        event.preventDefault();
-                        clickedCategory = $("#eventCategories").val();
-                        clickedSubCategory = $("#SubeventCategories").val();
-                        clickedKeyword = $("#keywordSearch").val();
-                        clickedDistance = $("#maxDistance").val();
-                        //convert the start and end date to format'YYYY-MM-DDTHH:MM:SS' as API will accept this
-                        clickedStartDate = moment($("#dateStart").val(), "YYYY-MM-DD").format('YYYY-MM-DDTHH:MM:SS');
-                        clickedEndDate = moment($("#dateEnd").val(), "YYYY-MM-DD").format('YYYY-MM-DDTHH:MM:SS');
-                        if ($('#ageCheck')[0].checked) {
-                            clickedAgeCheck = true;
-                        }
-                        //if checkbox fro free events is checked,toggle the output for API.
-                        if ($('#freeCheck')[0].checked) {
-                            clickedFreeCheck = "free";
-                        } else {
-                            clickedFreeCheck = "paid";
-                        }
-                        //Filter all the categories in eventbriteCategories array
-                        // and create a new array to show the filtered list.
-                        if (clickedCategory != "ALL") {
-                            catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
-                                return catagoryArray.Name === clickedCategory;
-                            });
-                            //Get the ID based on the catagoryArray array.
-                            clickedCategoryID = catagoryArray[0].ID;
-                        } else {
-                            for (var j = 0; j < eventbriteCategories.length; j++) {
-                                var catID = eventbriteCategories[j].ID;
-                                allcat.push(catID);
-                                clickedCategoryID = allcat.join();
-                            }
-                        }
-                        //Filter all the subcategories in eventbriteCategories array
-                        // and create a new array to show the filtered list.
-                        subcatagoryArray = eventbriteSubCategories.filter(function (subcatagoryArray) {
-                            return subcatagoryArray.Name === clickedSubCategory;
 
-                        });
-                        //Get the ID based on the subcatagoryArray array and category ID.
-                        for (var k = 0; k < subcatagoryArray.length; k++) {
-                            if (subcatagoryArray[k].Name === clickedSubCategory && subcatagoryArray[k].parentID === clickedCategoryID) {
-                                clickedSubCategoryID = subcatagoryArray[k].ID;
-                            }
-                        }
-                        //Depending on clickedAgeCheck is true or false, create the URL for EventBrite API search
-                        if (clickedAgeCheck) {
-                            eventbriteSearchURL = eventapiURL + "events/search/?q=" + clickedKeyword + "&location.within=" +
-                                clickedDistance + "km&location.latitude=" + latitude + "&location.longitude=" +
-                                longitude + "&categories=" + clickedCategoryID + "&subcategories=" + clickedSubCategoryID +
-                                "&price=" + clickedFreeCheck + "&include_adult_events=on" + "&start_date.range_start=" +
-                                clickedStartDate + "&start_date.range_end=" + clickedEndDate + "&" + eventapiToken;
-                        } else {
-                            eventbriteSearchURL = eventapiURL + "events/search/?q=" + clickedKeyword + "&location.within=" +
-                                clickedDistance + "km&location.latitude=" + latitude + "&location.longitude=" +
-                                longitude + "&categories=" + clickedCategoryID + "&subcategories=" + clickedSubCategoryID +
-                                "&price=" + clickedFreeCheck + "&start_date.range_start=" +
-                                clickedStartDate + "&start_date.range_end=" + clickedEndDate + "&" + eventapiToken;
-                        }
-
-                        var lat = '';
-                        var long = '';
-                        $.ajax({
-                                url: eventbriteSearchURL,
-                                method: "GET"
-                            })
-                            .then(function (response) {
-                                //Call to get the events based on search paramenters
-                                console.log(response);
-                                var venueList = [];
-                                for (var i = 0; i < response.events.length; i++) {
-                                    var venueId = response.events[i].venue_id;
-                                    var venueName = response.events[i].name.text;
-                                    console.log(venueName);
-
-                                    $.ajax({
-                                            url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
-                                            method: "GET"
-                                        })
-                                        .then(function (response) {
-                                            lat = parseFloat(response.latitude);
-                                            long = parseFloat(response.longitude);
-                                            var eventLocation = {
-                                                lat: lat,
-                                                lng: long
-                                            }
-                                            console.log(lat);
-                                            console.log(long);
-
-                                            var marker = new google.maps.Marker({
-                                                position: new google.maps.LatLng(eventLocation),
-                                                map: map
-                                            })
-
-                                            console.log(marker);
-                                            console.log(map);
-
-                                        })
-
-                                }
-                            });
+    $("#submitButton").click(function (event) {
+        event.preventDefault();
+                    clickedCategory = $("#eventCategories").val();
+                    clickedSubCategory = $("#SubeventCategories").val();
+                    clickedKeyword = $("#keywordSearch").val();
+                    clickedDistance = $("#maxDistance").val();
+                    //convert the start and end date to format'YYYY-MM-DDTHH:MM:SS' as API will accept this
+                    clickedStartDate = moment($("#dateStart").val(), "YYYY-MM-DD").format('YYYY-MM-DDTHH:MM:SS');
+                    clickedEndDate = moment($("#dateEnd").val(), "YYYY-MM-DD").format('YYYY-MM-DDTHH:MM:SS');
+                    if ($('#ageCheck')[0].checked) {
+                        clickedAgeCheck = true;
                     }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
+                    //if checkbox fro free events is checked,toggle the output for API.
+                    if ($('#freeCheck')[0].checked) {
+                        clickedFreeCheck = "free";
+                    } else {
+                        clickedFreeCheck = "paid";
+                    }
+                    //Filter all the categories in eventbriteCategories array
+                    // and create a new array to show the filtered list.
+                    catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
+                        return catagoryArray.Name === clickedCategory;
+                    });
+                    //Get the ID based on the catagoryArray array.
+                    clickedCategoryID = catagoryArray[0].ID;
+                    //Filter all the subcategories in eventbriteCategories array
+                    // and create a new array to show the filtered list.
+                    subcatagoryArray = eventbriteSubCategories.filter(function (subcatagoryArray) {
+                        return subcatagoryArray.Name === clickedSubCategory;
 
-    //check the correct URL is created
+                    });
+                    //Get the ID based on the subcatagoryArray array and category ID.
+                    for (var k = 0; k < subcatagoryArray.length; k++) {
+                        if (subcatagoryArray[k].Name === clickedSubCategory && subcatagoryArray[k].parentID === clickedCategoryID) {
+                            clickedSubCategoryID = subcatagoryArray[k].ID;
+                        }
+                    }
+                    //Depending on clickedAgeCheck is true or false, create the URL for EventBrite API search
+                    if (clickedAgeCheck) {
+                        eventbriteSearchURL = eventapiURL + "events/search/?q=" + clickedKeyword + "&location.within=" +
+                            clickedDistance + "km&location.latitude=" + latitude + "&location.longitude=" +
+                            longitude + "&categories=" + clickedCategoryID + "&subcategories=" + clickedSubCategoryID +
+                            "&price=" + clickedFreeCheck + "&include_adult_events=on" + "&start_date.range_start=" +
+                            clickedStartDate + "&start_date.range_end=" + clickedEndDate + "&" + eventapiToken;
+                    } else {
+                        eventbriteSearchURL = eventapiURL + "events/search/?q=" + clickedKeyword + "&location.within=" +
+                            clickedDistance + "km&location.latitude=" + latitude + "&location.longitude=" +
+                            longitude + "&categories=" + clickedCategoryID + "&subcategories=" + clickedSubCategoryID +
+                            "&price=" + clickedFreeCheck + "&start_date.range_start=" +
+                            clickedStartDate + "&start_date.range_end=" + clickedEndDate + "&" + eventapiToken;
+                    }
 
-    //---------------------------END OF SECTION FOR EVENBRITE API --------------------------
-
-    //--------------------EVENTBRITE API CALL FOR COORDINATES FOR GOOGLE MAPS---------------//
-
-
-    // ----------------------------------------JEZZA----------------------------------------//
-
+        getEventInfo();
+        console.log(eventbriteSearchURL);
+        console.log(eventbriteSubCategories);
+    });
 
 });
