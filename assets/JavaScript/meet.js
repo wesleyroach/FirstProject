@@ -44,8 +44,6 @@ $(document).ready(function () {
 
 
     function showPosition(position) {
-        // x.innerHTML = "Latitude: " + position.coords.latitude +
-        //     "<br>Longitude: " + position.coords.longitude;
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         coordsValue = true;
@@ -55,6 +53,7 @@ $(document).ready(function () {
     };
 
 
+    var map;
 
     function initMap(latitude, longitude) {
         var userLocation = {
