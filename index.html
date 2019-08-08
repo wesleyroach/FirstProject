@@ -237,7 +237,72 @@
     <div class="card border-0 shadow my-5" id="mapContainer">
       <div class="row"></div>
     </div>
+    // add iFrame modal taken from getbootstrap
+    <!-- Button trigger modal ------------------------------------------------------------>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModal"
+    >
+      View Nearby MeetUp Groups
+    </button>
+
+    <!-- Modal ---------------------------------------------------------------------------->
+    <div
+      class="modal fade bd-example-modal-lg"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Nearby MeetUp Groups
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            see available groups below:
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="tablebody"></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="./assets/JavaScript/moment.js"></script>
     <script src="./assets/JavaScript/meet.js"></script>
+    <script src="./assets/JavaScript/meetupapi.js"></script>
   </body>
 </html>
