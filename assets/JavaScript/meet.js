@@ -1,18 +1,33 @@
+var latitude = '';
+var longitude = '';
+
+var reverseGeo = function () {
+    var geocoder = new google.maps.Geocoder;
+    var latlng = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+    geocoder.geocode({ 'location': latlng }, function (results, status) {
+        console.log("Address", results[0].formatted_address);
+        $('#location').val(results[0].formatted_address)
+    });
+}
+
 $(document).ready(function () {
     // <----------------------------------------------------------------------------------->
     // Google Maps & Geolocation APIs
     // initMap();
 
-    function getLocation() {
+    function getLocation(cb) {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(function (position) {
+                showPosition(position);
+                cb();
+            });
         } else {
             x.innerHTML = "Geolocation is not supported by this browser.";
+            cb();
         }
     };
 
-    var latitude = '';
-    var longitude = '';
+
     var coordsValue = false;
 
     function showPosition(position) {
@@ -21,18 +36,13 @@ $(document).ready(function () {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         coordsValue = true;
-        console.log(latitude);
-        console.log(longitude);
+        console.log("First lat", latitude);
+        console.log("First Lng", longitude);
 
         if (coordsValue) {
             initMap();
         }
     };
-
-    $('#findMe').on('click', function (event) {
-        event.preventDefault();
-        getLocation();
-    })
 
     function initMap() {
         var userLocation = {
@@ -50,7 +60,8 @@ $(document).ready(function () {
         });
     }
 
-    // <--------------------------------------------------------------------------------------------------->
+
+
     //---------------------------THIS SECTION IS FOR EVENBRITE API --------------------------
 
     //EventBrite categories and Subcategories
@@ -237,5 +248,25 @@ $(document).ready(function () {
     console.log(eventbriteSearchURL);
     //---------------------------END OF SECTION FOR EVENBRITE API --------------------------
 
-
+    $('#findMe').on('click', function (event) {
+        event.preventDefault();
+        getLocation(reverseGeo);
+        ;
+    })
 });
+
+
+
+function autoMap() {
+    var input = document.getElementById('location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+
+    autocomplete.addListener('place_changed', function () {
+        var place = autocomplete.getPlace();
+        console.log("Long", place.geometry.location.lng());
+        console.log("Lat", place.geometry.location.lat());
+    });
+}
+
+
+

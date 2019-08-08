@@ -32,8 +32,8 @@
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
 
     <!-- Google Maps API key. Please be careful the key, hackers like to find keys like this -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI">
-    </script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI">
+    </script> -->
     <link rel="stylesheet" href="./assets/CSS/style.css">
 </head>
 
@@ -182,6 +182,22 @@
     </div>
     <script src="./assets/JavaScript/moment.js"></script>
     <script src="./assets/JavaScript/meet.js"></script>
+    <script>
+        // function autoMap() {
+        //     var input = document.getElementById('location');
+        //     var autocomplete = new google.maps.places.Autocomplete(input);
+
+        //     autocomplete.addListener('place_changed', function () {
+        //         var place = autocomplete.getPlace();
+        //         console.log("Long", place.geometry.location.lng());
+        //         console.log("Lat", place.geometry.location.lat());
+        //     });
+        // }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI&libraries=places&callback=autoMap"
+        async defer>
+        </script>
 
 </body>
 
