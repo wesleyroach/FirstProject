@@ -29,6 +29,7 @@ $(document).ready(function () {
 
 
     var map;
+    var infowindow;
 
     function initMap(latitude, longitude) {
         var userLocation = {
@@ -42,6 +43,7 @@ $(document).ready(function () {
             });
         var marker = new google.maps.Marker({
             position: userLocation,
+            title: "You are here",
             map: map
         });
     }
@@ -232,10 +234,10 @@ $(document).ready(function () {
                             .then(function (response) {
                                 //Call to get the events based on search paramenters
                                 console.log(response);
-                                var venueList = [];
                                 for (var i = 0; i < response.events.length; i++) {
                                     var venueId = response.events[i].venue_id;
                                     var venueName = response.events[i].name.text;
+                                    var venueUrl = response.events[i].
                                     console.log(venueName);
 
                                     $.ajax({
@@ -252,10 +254,22 @@ $(document).ready(function () {
                                             console.log(lat);
                                             console.log(long);
 
+                                            var contentString = '<a href="' + +'">' + venueName + '</a>';
+
+
+                                            infowindow = new google.maps.InfoWindow({
+                                                content: contentString
+                                            });
+
                                             var marker = new google.maps.Marker({
                                                 position: new google.maps.LatLng(eventLocation),
+                                                title: venueName,
                                                 map: map
-                                            })
+                                            });
+                                            marker.addListener('click', function () {
+                                                infowindow.open(map, marker);
+                                            });
+
 
                                             console.log(marker);
                                             console.log(map);
