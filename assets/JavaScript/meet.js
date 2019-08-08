@@ -149,6 +149,7 @@ $(document).ready(function () {
     var eventbriteSearchURL = '';
     var subcatagoryArray = '';
     var catagoryArray = '';
+    var allcat = [];
     //Check if there is a valid value for distance,startdate and enddate. 
     //If not, Validation check is done before user can click on submit button.
     (function () {
@@ -182,11 +183,19 @@ $(document).ready(function () {
                         }
                         //Filter all the categories in eventbriteCategories array
                         // and create a new array to show the filtered list.
-                        catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
-                            return catagoryArray.Name === clickedCategory;
-                        });
-                        //Get the ID based on the catagoryArray array.
-                        clickedCategoryID = catagoryArray[0].ID;
+                        if (clickedCategory != "ALL") {
+                            catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
+                                return catagoryArray.Name === clickedCategory;
+                            });
+                            //Get the ID based on the catagoryArray array.
+                            clickedCategoryID = catagoryArray[0].ID;
+                        } else {
+                            for (var j = 0; j < eventbriteCategories.length; j++) {
+                                var catID = eventbriteCategories[j].ID;
+                                allcat.push(catID);
+                                clickedCategoryID = allcat.join();
+                            }
+                        }
                         //Filter all the subcategories in eventbriteCategories array
                         // and create a new array to show the filtered list.
                         subcatagoryArray = eventbriteSubCategories.filter(function (subcatagoryArray) {
