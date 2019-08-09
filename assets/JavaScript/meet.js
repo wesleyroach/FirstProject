@@ -29,6 +29,7 @@ $(document).ready(function () {
     var catagoryArray = '';
     var eventLocations = [];
     var map;
+    var allEventCategory=[];
    
     getLocation();
     getEventcategories();
@@ -216,11 +217,19 @@ $(document).ready(function () {
                     }
                     //Filter all the categories in eventbriteCategories array
                     // and create a new array to show the filtered list.
-                    catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
-                        return catagoryArray.Name === clickedCategory;
-                    });
-                    //Get the ID based on the catagoryArray array.
-                    clickedCategoryID = catagoryArray[0].ID;
+                    if (clickedCategory != "ALL") {
+                        catagoryArray = eventbriteCategories.filter(function (catagoryArray) {
+                            return catagoryArray.Name === clickedCategory;
+                        });
+                        //Get the ID based on the catagoryArray array.
+                        clickedCategoryID = catagoryArray[0].ID;
+                    } else {
+                        for (var j = 0; j < eventbriteCategories.length; j++) {
+                            var categoryID = eventbriteCategories[j].ID;
+                            allEventCategory.push(categoryID);
+                            clickedCategoryID = allEventCategory.join();
+                        }
+                    }
                     //Filter all the subcategories in eventbriteCategories array
                     // and create a new array to show the filtered list.
                     subcatagoryArray = eventbriteSubCategories.filter(function (subcatagoryArray) {
