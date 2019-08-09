@@ -54,6 +54,7 @@ $(document).ready(function () {
 
 
     var map;
+    var infowindow;
 
     function initMap(latitude, longitude) {
         var userLocation = {
@@ -67,6 +68,7 @@ $(document).ready(function () {
             });
         var marker = new google.maps.Marker({
             position: userLocation,
+            title: "You are here",
             map: map
         });
     }
@@ -167,7 +169,7 @@ $(document).ready(function () {
 
                             var contentString = '<a href="' + venueUrl + '">' + venueName + '</a>';
 
-                            infowindow = new google.maps.infoWindow({
+                            infowindow = new google.maps.InfoWindow({
                                 content: contentString
                             });
 
