@@ -146,6 +146,7 @@ $(document).ready(function () {
                 for (var i = 0; i < response.events.length; i++) {
                     var venueId = response.events[i].venue_id;
                     var venueName = response.events[i].name.text;
+                    var venueUrl = response.events[i].url;
                     console.log(venueName);
                     console.log(venueId);
 
@@ -163,9 +164,19 @@ $(document).ready(function () {
                             }
                             console.log(lat);
                             console.log(long);
+
+                            var contentString = '<a href="' + venueUrl + '">' + venueName + '</a>';
+
+                            infowindow = new google.maps.infoWindow({
+                                content: contentString
+                            });
+
                             var marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(eventLocation),
                                 map: map
+                            });
+                            marker.addListener('click', function () {
+                                infowindow.open(map, marker);
                             })
                         })
 
