@@ -27,6 +27,7 @@ var subcatagoryArray = '';
 var catagoryArray = '';
 var eventLocations = [];
 var map;
+var infowindow;
 // Function Definitions
 function showPosition(position) {
     latitude = position.coords.latitude;
@@ -61,6 +62,7 @@ function initMap(latitude, longitude) {
         });
     var marker = new google.maps.Marker({
         position: userLocation,
+        title: "You are here",
         map: map
     });
 }
@@ -157,47 +159,39 @@ $(document).ready(function () {
         })
             .then(function (response) {
                 //Call to get the events based on search paramenters
-                console.log("Response:", response);
+                console.log(response);
                 var venueList = [];
-                // var eventUrl;
                 for (var i = 0; i < response.events.length; i++) {
                     var venueId = response.events[i].venue_id;
-                    var eventName = response.events[i].name.text;
-                    eventUrl = response.events[i].url;
-                    console.log("Event Name:", eventName);
-                    console.log("Venue ID:", venueId);
-                    console.log("Event URL:", eventUrl);
-
-                    var eventUrl;
-                    var infowindow = new google.maps.InfoWindow({
-                        content: eventUrl
-                    });
+                    var venueName = response.events[i].name.text;
+                    var venueUrl = response.events[i].url;
+                    console.log(venueName);
+                    console.log(venueId);
                     $.ajax({
                         url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
                         method: "GET"
                     })
                         .then(function (response) {
-                            // console.log(response);
-
                             var lat = parseFloat(response.latitude);
                             var long = parseFloat(response.longitude);
                             var eventLocation = {
                                 lat: lat,
                                 lng: long
                             }
-                            // console.log("Venue Lat", lat);
-                            // console.log("Venue Long", long);
-
+                            console.log(lat);
+                            console.log(long);
+                            var contentString = '<a href="' + venueUrl + '">' + venueName + '</a>';
+                            infowindow = new google.maps.InfoWindow({
+                                content: contentString
+                            });
                             var marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(eventLocation),
-                                map: map,
-                                title: response.name
+                                map: map
                             });
                             marker.addListener('click', function () {
                                 infowindow.open(map, marker);
-                            });
+                            })
                         })
-
                 }
             });
     }
