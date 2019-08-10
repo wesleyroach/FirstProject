@@ -5,18 +5,25 @@
     <title>EventMeet</title>
     <meta charset="UTF-8">
 
-    <!-- Link Bootstrap, BootstrapJS, Jquery and Popper -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FontAwesome CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- Jquery library -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
         </script>
+    <!-- Popper library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
         </script>
+    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
+
     <script src="https://code.jquery.com/jquery.js"></script>
 
 
@@ -24,9 +31,6 @@
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
 
-    <!-- Google Maps API key. Please be careful the key, hackers like to find keys like this -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI">
-    </script>
     <link rel="stylesheet" href="./assets/CSS/style.css">
 </head>
 
@@ -67,7 +71,7 @@
                 <h1 class="font-weight-light text-center">What are you looking for?</h1>
                 <p class="lead">We want to help you find a great event nearby.</p>
                 <p class="lead">Here's where you can tell us what you're looking for</p>
-                <form id="demo-form" class="needs-validation" novalidate>
+                <form class="needs-validation" novalidate>
                     <div class="form-group">
                         <label for="eventCategories">Categories</label>
                         <select class="form-control-sm" id="eventCategories">
@@ -86,14 +90,22 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <Label class="col-sm-2 col-form-label" for="location">Location</Label>
+                        <div class="input-group col-sm-4">
+                            <input class="form-control" type="text" id="location" required>
+                            <div class="input-group-append">
+                                <!-- <button class="btn btn-primary">T</button> -->
+                                <!-- <span class="input-group-text"><i class="fa fa-map-marker"></i></span> -->
+                                <button class="input-group-text" id="findMe"><i class="fa fa-map-marker"></i></button>
+                            </div>
+                        </div>
+
                         <label class="col-sm-3 col-form-label" for="maxDistance">Max distance from me:</label>
                         <div class="input-group col-sm-3">
                             <input class="form-control" type="number" id="maxDistance" required>
-                            <div class="input-group-append ">
-                                <span class="input-group-text" id="inputGroupPrepend">Km's</span>
-
+                            <div class="input-group-append">
+                                <span class="input-group-text">Km's</span>
                             </div>
-
                         </div>
 
                     </div>
@@ -132,38 +144,72 @@
 
                         </div>
                     </div>
-                    <!-- <button type="submit" class="btn btn-primary" data-toggle="collapse" -->
-                    <button type="submit" class="btn btn-primary validate" id="submitButton" href=".crushMeDaddy">Submit</button>
+
+                    <!-- <button type="submit" class="btn btn-primary" data-toggle="collapse">test</button> -->
+                    <button type="submit" class="btn btn-primary validate" id="submitButton" href=".crushMeDaddy"
+                        data-toggle="collapse">Submit</button>
+
                     <button type="submit" class="btn btn-secondary">Clear Filters</button>
                 </form>
                 <!-- <div style="height: 700px"></div> -->
                 <p class="col-sm-12 text-center mb-0 mt-2">Remember to exercise personal safety, always make sure people
                     know where you are and how to reach you</p>
-                <div class="col-sm-12"><a class="mx-auto" href="https://www.police.vic.gov.au/drink-spiking">Click here
+                <p class="col-sm-12  text-center"><a class="mx-auto" href="https://www.police.vic.gov.au/drink-spiking"
+                        target="_blank" s>Click here
                         to for the
                         Victoria
-                        Police recommendations on personal safety</a></div>
+                        Police recommendations on personal safety</a></dpiv>
+            </div>
+            <div class="row">
+                <button class="btn btn-secondary collapse crushMeDaddy col-sm-6" href=".crushMeDaddy"
+                    data-toggle="collapse">Filters</button>
+                <button class="btn btn-secondary collapse crushMeDaddy col-sm-6" data-toggle="modal"
+                    data-target="#tableModal">Local
+                    Meetups</button>
+            </div>
+            <div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="tableModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Event Name</th>
+                                        <th scope="col">Link</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Map content container -->
     <div class="container">
         <div class="card border-0 shadow my-5">
-            <div class="card-body p-5 collapse show crushMeDaddy" id="crushMeDaddy">
+            <div class="card-body p-5 collapse crushMeDaddy">
                 <div class="col-sm-12" id="mapInitPage"></div>
             </div>
         </div>
     </div>
 
-    <div class="card border-0 shadow my-5" id="mapContainer">
-        <div class="row">
-
-
-        </div>
-    </div>
+    <!-- Local and moment Scripts -->
     <script src="./assets/JavaScript/moment.js"></script>
     <script src="./assets/JavaScript/meet.js"></script>
-
+    <script src="./assets/JavaScript/Test.js"></script>
+    <!-- <script src="./assets/JavaScript/meetup.js"></script> -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbSRYlLAK7tb380D0bxE0cAEf86Xd5UWI&libraries=places&callback=autoMap"
+        async defer>
+        </script>
 </body>
 
 </html>
