@@ -12,8 +12,15 @@ $("#submitButton").click(function (event) {
         method: "GET"
     }).then(function (response) {
         console.log("Meetup Log", response)
+
         for (i = 0; i < response.events.length; i++) {
             console.log(i)
+            var tableEntry = $("<tr>")
+            tableEntry.append('<td>' + response.events[i].group.name + '</td>');
+            tableEntry.append('<td><a href="' + response.events[i].link + '">Link</a></td>');
+            tableEntry.append('<td>' + response.events[i].local_date + '</td>');
+            tableEntry.append('<td>' + response.events[i].local_time + '</td>');
+            $('#tableBody').append(tableEntry)
         }
     })
 })
