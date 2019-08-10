@@ -1,3 +1,4 @@
+
 // Variable Definitions
 var latitude = '';
 var longitude = '';
@@ -43,6 +44,7 @@ function getLocation(cb) {
         navigator.geolocation.getCurrentPosition(function (position) {
             showPosition(position);
             cb();
+
         });
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
@@ -89,6 +91,7 @@ function autoMap() {
 
 
 
+
 $(document).ready(function () {
     // getLocation();
     getEventcategories();
@@ -106,6 +109,7 @@ $(document).ready(function () {
             url: eventbriteCategoriesURL,
             method: "GET"
         }) //On response get the name and ID and push it to the eventbriteCategories array
+
             .then(function (response) {
                 for (var i = 0; i < response.categories.length; i++) {
                     eventbriteCategories.push({
@@ -118,11 +122,14 @@ $(document).ready(function () {
                     var category = eventbriteCategories[j].Name;
                     var categoriesList = $("<option>").text(category);
                     $("#eventCategories").append(categoriesList);
+
                 }
+
             });
     }
 
     //Call to get the subcategories list.
+
     //We need to check till pageination.continuation does not return a token
     function makeAPIcall(continuation = "") {
         if (continuation !== "") {
@@ -154,9 +161,11 @@ $(document).ready(function () {
 
     function getEventInfo() {
         $.ajax({
+
             url: eventbriteSearchURL,
             method: "GET"
         })
+
             .then(function (response) {
                 //Call to get the events based on search paramenters
                 console.log(response);
@@ -167,10 +176,12 @@ $(document).ready(function () {
                     var venueUrl = response.events[i].url;
                     console.log(venueName);
                     console.log(venueId);
+
                     $.ajax({
                         url: `${eventapiURL}venues/${venueId}/?${eventapiToken}`,
                         method: "GET"
                     })
+
                         .then(function (response) {
                             var lat = parseFloat(response.latitude);
                             var long = parseFloat(response.longitude);
@@ -180,10 +191,12 @@ $(document).ready(function () {
                             }
                             console.log(lat);
                             console.log(long);
+
                             var contentString = '<a href="' + venueUrl + '">' + venueName + '</a>';
                             infowindow = new google.maps.InfoWindow({
                                 content: contentString
                             });
+
                             var marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(eventLocation),
                                 map: map
@@ -192,9 +205,11 @@ $(document).ready(function () {
                                 infowindow.open(map, marker);
                             })
                         })
+
                 }
             });
     }
+
 
     //On selecting the categories, appropriate subcategories need to populate
     $("#eventCategories").on('change', function () {
@@ -214,6 +229,7 @@ $(document).ready(function () {
         }
 
     });
+
 
     $("#submitButton").click(function (event) {
         event.preventDefault();
@@ -270,6 +286,7 @@ $(document).ready(function () {
         getEventInfo();
         // console.log("Eventbrite URL", eventbriteSearchURL);
         // console.log("EventBrite Subcatagories", eventbriteSubCategories);
+
 
 
     });
